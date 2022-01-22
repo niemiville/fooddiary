@@ -1,0 +1,111 @@
+swagger: "2.0"
+info:
+  description: "Backend for food diary"
+  version: "1.0.0"
+  title: "Food diary"
+tags:
+- name: "food"
+  description: "Nutritional information about different foods"
+paths:
+  /food:
+    post:
+      tags:
+      - "food"
+      summary: "Add a new food"
+      description: ""
+      operationId: "addFood"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Food object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Food"
+      responses:
+        "200":
+          description: "Food added successfully"
+        "405":
+          description: "Invalid input"
+  /food/findAllFoods:
+    get:
+      tags:
+      - "food"
+      summary: "Finds all foods in food diary"
+      description: ""
+      operationId: "findAllFoods"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Food"
+        "400":
+          description: "Invalid status value"
+  /food/{foodId}:
+    get:
+      tags:
+      - "food"
+      summary: "Find food by ID"
+      description: "Returns a single food"
+      operationId: "getFoodById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "foodId"
+        in: "path"
+        description: "ID of pet to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Food"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Food not found"
+    delete:
+      tags:
+      - "food"
+      summary: "Deletes a food"
+      description: ""
+      operationId: "deleteFood"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "foodId"
+        in: "path"
+        description: "Food id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Food not found"
+definitions:
+  Food:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+        example: "Banana"
+      kilocalories:
+        type: "integer"
+        format: "int64"
+  

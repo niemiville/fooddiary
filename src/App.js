@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import 'semantic-ui-css/semantic.min.css';
+import { Container } from 'semantic-ui-react';
+import { MenuBar, FoodList, AddFoodForm, RegisterUser, SignInUser } from './components';
+import { initializeFoods } from './reducers/foodReducer';
+import { useDispatch } from 'react-redux';
+import foodss from './foodData';
+import foodData from './backend/initFoods';
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link
+} from "react-router-dom"
+//const Food = require('./backend/controllers/foodController')
 
 function App() {
+  const [foodList, setFoodList] = useState(foodss)
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(initializeFoods())
+  }, [dispatch])
+
+  const addFood = (f) => {
+    setFoodList(foodList.concat(f))
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Container>
+      <Router>
+        <MenuBar />
+          <Switch>
+            <Route path="/foods">
+              <AddFoodForm addFood={addFood} foodData={foodData}/>
+              <FoodList foods={foodList} />
+            </Route>
+            <Route path="/signup">
+              <RegisterUser />
+            </Route>
+            <Route path="/signin">
+              <SignInUser />
+            </Route>
+          </Switch>
+        </Router>
+      </Container>
+    </>
   );
 }
 
 export default App;
+

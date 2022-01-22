@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/foods
+Content-Type: application/json
+
+{
+    "id": 2,
+    "name": "Orange",
+    "kcal": 100
+}
